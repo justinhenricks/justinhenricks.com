@@ -7,9 +7,6 @@ export default function Index() {
   const [, setTheme] = useTheme();
   const user = useOptionalUser();
 
-  console.log("hello");
-  console.log("test again");
-
   const toggleTheme = () => {
     setTheme((prevTheme) =>
       prevTheme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT
