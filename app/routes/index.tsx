@@ -8,6 +8,7 @@ export default function Index() {
   const user = useOptionalUser();
 
   console.log("hello");
+  console.log("test again");
 
   const toggleTheme = () => {
     setTheme((prevTheme) =>
