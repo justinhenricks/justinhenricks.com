@@ -4,8 +4,7 @@ import { l } from "vitest/dist/index-6e18a03a";
 import { Theme, isTheme } from "./theme-provider";
 
 const sessionSecret = process.env.SESSION_SECRET;
-console.log("here is process.env");
-console.log(process.env);
+
 if (!sessionSecret) {
   throw new Error(
     `SESSION_SECRET must be set.. process env is: ${process.env}`
