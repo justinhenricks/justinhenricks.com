@@ -6,6 +6,9 @@ on:
       - dev
   pull_request: {}
 
+env:
+  SESSION_SECRET: 3124736dc0553a586c00cae06e883690
+
 permissions:
   actions: write
   contents: read
