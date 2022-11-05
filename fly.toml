@@ -1,4 +1,4 @@
-app = "justinhenricks-com-455d"
+app = "justin-henricks-com"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = [ ]

@@ -61,8 +61,6 @@ function ThemeProvider({
       return;
     }
 
-    console.log("ok sending action");
-
     persistThemeRef.current.submit(
       { theme },
       { action: "action/set-theme", method: "post" }
