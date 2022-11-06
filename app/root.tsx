@@ -28,7 +28,7 @@ import {
   useTheme,
 } from "./utils/theme-provider";
 import { User } from "./models/user.server";
-import Header from "./components/header";
+import Header from "./components/Header";
 
 export type LoaderData = {
   theme: Theme | null;
@@ -82,7 +82,7 @@ const App = () => {
         <Links />
         <NonFlashOfWrongThemeEls ssrTheme={Boolean(data.theme)} />
       </head>
-      <body className="h-full bg-light text-dark transition duration-500 dark:bg-zinc-900 dark:text-light">
+      <body className="md:px-18 h-full bg-light px-8 text-2xl text-dark transition duration-500 dark:bg-dark dark:text-light sm:px-12 lg:px-32">
         <Header />
         <Outlet />
         <ScrollRestoration />
