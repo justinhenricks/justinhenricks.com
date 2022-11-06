@@ -28,7 +28,7 @@ import {
   useTheme,
 } from "./utils/theme-provider";
 import { User } from "./models/user.server";
-import Header from "./components/Header";
+import Header from "~/components/Header";
 
 export type LoaderData = {
   theme: Theme | null;
