@@ -1,0 +1,11 @@
+:root {
+  --color-light: 255 255 255;
+  --color-dark: 0 0 0;
+  --color-accent: 191 72 0;
+}
+
+@layer base {
+  html {
+    font-family: Montserrat, system-ui, sans-serif;
+  }
+}

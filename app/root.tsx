@@ -20,6 +20,7 @@ import {
 } from "@remix-run/react";
 
 import tailwindStylesheetUrl from "./styles/tailwind.css";
+import appStyles from "./styles/app.css";
 import { getUser } from "./session.server";
 import {
   NonFlashOfWrongThemeEls,
@@ -34,7 +35,10 @@ export type LoaderData = {
 };
 
 export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: tailwindStylesheetUrl }];
+  return [
+    { rel: "stylesheet", href: tailwindStylesheetUrl },
+    { rel: "stylesheet", href: appStyles },
+  ];
 };
 
 export const meta: MetaFunction = () => ({
