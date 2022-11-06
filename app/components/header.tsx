@@ -12,14 +12,16 @@ export default function Header() {
     );
   };
   return (
-    <header className="flex w-screen justify-between px-4 py-4 md:px-8">
-      <div className="">Justin Henricks</div>
-      <nav>
+    <header className="flex w-screen px-4 py-4 md:px-8">
+      <div className="flex flex-1 items-center justify-start">
+        Justin Henricks
+      </div>
+      <nav className="flex flex-1 items-center justify-center">
         <Link to="/">Hi</Link>
         <Link to="/">Hi</Link>
         <Link to="/">Hi</Link>
       </nav>
-      <div className="flex items-center justify-center gap-6">
+      <div className="flex flex-1 items-center justify-end gap-6">
         <button onClick={toggleTheme}>Toggle</button>
       </div>
     </header>
