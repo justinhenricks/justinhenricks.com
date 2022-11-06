@@ -82,7 +82,7 @@ const App = () => {
         <Links />
         <NonFlashOfWrongThemeEls ssrTheme={Boolean(data.theme)} />
       </head>
-      <body className="h-full bg-light text-dark transition duration-500 dark:bg-dark dark:text-light">
+      <body className="h-full bg-light text-dark transition duration-500 dark:bg-zinc-900 dark:text-light">
         <Header />
         <Outlet />
         <ScrollRestoration />

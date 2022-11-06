@@ -14,8 +14,7 @@ export default function Index() {
     );
   };
   return (
-    <main className="relative min-h-screen sm:flex sm:items-center sm:justify-center">
-      Hey my name is justin
+    <main className="flex min-h-screen flex-col items-center px-10">
       <Hero />
       {/* <div className="relative sm:pb-16 sm:pt-8">
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">

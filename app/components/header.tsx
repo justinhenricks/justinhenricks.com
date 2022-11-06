@@ -12,11 +12,11 @@ export default function Header() {
     );
   };
   return (
-    <header className="flex w-screen px-4 py-4 md:px-8">
+    <header className="mb-8 flex w-screen px-4 py-4 md:px-8">
       <div className="flex flex-1 items-center justify-start">
         Justin Henricks
       </div>
-      <nav className="flex flex-1 items-center justify-center">
+      <nav className="hidden flex-1 items-center justify-center sm:flex">
         <Link to="/">Hi</Link>
         <Link to="/">Hi</Link>
         <Link to="/">Hi</Link>
