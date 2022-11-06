@@ -28,6 +28,7 @@ import {
   useTheme,
 } from "./utils/theme-provider";
 import { User } from "./models/user.server";
+import Header from "./components/header";
 
 export type LoaderData = {
   theme: Theme | null;
@@ -43,7 +44,7 @@ export const links: LinksFunction = () => {
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "Remix Notes",
+  title: "Justin Henricks",
   viewport: "width=device-width,initial-scale=1",
 });
 
@@ -81,7 +82,8 @@ const App = () => {
         <Links />
         <NonFlashOfWrongThemeEls ssrTheme={Boolean(data.theme)} />
       </head>
-      <body className="h-full">
+      <body className="h-full bg-light text-dark transition duration-500 dark:bg-dark dark:text-light">
+        <Header />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
