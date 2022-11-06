@@ -1,5 +1,5 @@
 import { Link } from "@remix-run/react";
-import Hero from "~/components/Hero";
+import Hero from "~/components/hero";
 
 import { useOptionalUser } from "~/utils";
 import { Theme, useTheme } from "~/utils/theme-provider";
