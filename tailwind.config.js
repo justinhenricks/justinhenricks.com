@@ -1,3 +1,5 @@
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 function withOpacityValue(variable) {
   return ({ opacityValue }) => {
     if (opacityValue === undefined) {
@@ -13,6 +15,9 @@ module.exports = {
   content: ["./app/**/*.{ts,tsx,jsx,js}"],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["Noto Sans", ...defaultTheme.fontFamily.sans],
+      },
       colors: {
         light: withOpacityValue("--color-light"),
         dark: withOpacityValue("--color-dark"),
