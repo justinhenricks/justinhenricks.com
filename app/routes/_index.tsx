@@ -1,4 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
+import { Form } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -9,33 +10,17 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   return (
-    <div className="">
-      <h1 className="text-teal-400 text-2xl">Welcome to Remix</h1>
-      <ul>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/blog"
-            rel="noreferrer"
-          >
-            15m Quickstart Blog Tutorial
-          </a>
-        </li>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/jokes"
-            rel="noreferrer"
-          >
-            Deep Dive Jokes App Tutorial
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
-            Remix Docs
-          </a>
-        </li>
-      </ul>
+    <div className="container h-full w-full flex flex-col justify-center items-center gap-4">
+      <h1 className="text-2xl">ask (my ai) anything</h1>
+      <Form>
+        <input
+          type="text"
+          name="name"
+          autoFocus
+          placeholder="When is your next gig?"
+          className="shadow-md min-w-[300px] p-2 bg-zinc-900 border ring-offset-zinc-900"
+        />
+      </Form>
     </div>
   );
 }
