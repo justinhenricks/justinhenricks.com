@@ -1,5 +1,5 @@
 import { cssBundleHref } from "@remix-run/css-bundle";
-import type { LinksFunction } from "@remix-run/node";
+import { type LinksFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -25,7 +25,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="bg-background text-foreground font-mon">
+      <body className="bg-background text-foreground">
         <div className="flex h-screen flex-col justify-between">
           <header className="container flex w-full justify-between text-teal-400 py-6">
             <div className="text-2xl">justin henricks</div>
