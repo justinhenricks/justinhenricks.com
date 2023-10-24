@@ -18,14 +18,14 @@ export const links: LinksFunction = () => [
 
 export default function App() {
   return (
-    <html lang="en" className="h-full overflow-x-hidden">
+    <html lang="en" className="h-full overflow-x-hidden dark">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
       </head>
-      <body className="bg-zinc-900 text-zinc-100">
+      <body className="bg-background text-foreground font-mon">
         <div className="flex h-screen flex-col justify-between">
           <header className="container flex w-full justify-between text-teal-400 py-6">
             <div className="text-2xl">justin henricks</div>
