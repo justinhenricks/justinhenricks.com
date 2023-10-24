@@ -9,8 +9,11 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
+import styles from "~/styles/tailwind.css";
+
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
+  { rel: "stylesheet", href: styles },
 ];
 
 export default function App() {
@@ -22,7 +25,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="font-mono bg-zinc-900 text-zinc-50">
         <Outlet />
         <ScrollRestoration />
         <Scripts />
