@@ -10,7 +10,7 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   return (
     <div className="">
-      <h1>Welcome to Remix</h1>
+      <h1 className="text-teal-400 text-2xl">Welcome to Remix</h1>
       <ul>
         <li>
           <a
