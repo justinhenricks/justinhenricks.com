@@ -61,16 +61,13 @@ export async function action({ request }: DataFunctionArgs) {
     );
   }
 
-  const answerRes = await fetch(
-    "http://localhost:4000/public/answer-question",
-    {
-      method: "POST",
-      body: JSON.stringify({ question }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
+  const answerRes = await fetch(process.env.AI_API_URL!, {
+    method: "POST",
+    body: JSON.stringify({ question }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
   if (!answerRes.ok) {
     const errorData = await answerRes.json();
