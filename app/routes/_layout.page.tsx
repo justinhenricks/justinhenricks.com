@@ -1,7 +1,7 @@
-import type { DataFunctionArgs, V2_MetaFunction } from "@remix-run/node";
+import type { DataFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [{ title: "" }];
 };
 

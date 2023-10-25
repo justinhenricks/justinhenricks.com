@@ -1,4 +1,4 @@
-import type { DataFunctionArgs, V2_MetaFunction } from "@remix-run/node";
+import type { DataFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import {
   LiveReload,
@@ -8,7 +8,7 @@ import {
 } from "@remix-run/react";
 import { Header } from "~/components/header";
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [{ title: "" }];
 };
 
