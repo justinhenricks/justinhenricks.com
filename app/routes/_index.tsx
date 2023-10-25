@@ -27,30 +27,45 @@ export async function action({ request }: DataFunctionArgs) {
 
   if (!question || typeof question !== "string") {
     return json(
-      { error: "please provide a question", question: null, answer: null },
+      {
+        formError: "please provide a question",
+        question: null,
+        answer: null,
+        apiError: null,
+      },
       { status: 400 }
     );
   }
 
-  const answerRes = await fetch(
-    "http://localhost:4000/public/answer-question",
-    {
-      method: "POST",
-      body: JSON.stringify({ question }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
+  try {
+    const answerRes = await fetch(
+      "http://localhost:4000/public/answer-question",
+      {
+        method: "POST",
+        body: JSON.stringify({ question }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-  const { answer } = await answerRes.json();
+    const { answer } = await answerRes.json();
 
-  return json({ question, answer, error: null });
+    return json({ question, answer, formError: null, apiError: null });
+  } catch (error) {
+    return json({
+      formError: null,
+      apiError: "Sorry, something went wrong. Please try again!",
+      question: null,
+      answer: null,
+    });
+  }
 }
 
 export default function Index() {
   const actionData = useActionData<typeof action>();
-  const error = actionData?.error;
+  const formError = actionData?.formError;
+  const apiError = actionData?.apiError;
   const [curQuestion, setCurQuestion] = useState("");
   const [inputValue, setInputValue] = useState("");
   const desktopInputRef = useRef<HTMLInputElement | null>(null);
@@ -92,6 +107,8 @@ export default function Index() {
               {navigation.state === "submitting" ||
               navigation.state === "loading" ? (
                 "..."
+              ) : apiError ? (
+                <span className="text-destructive">{apiError}</span>
               ) : (
                 <Typewriter text={actionData?.answer || ""} delay={50} />
               )}
@@ -126,13 +143,11 @@ export default function Index() {
                   placeholder={getRandomPlaceholder(placeholders)}
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
-                  aria-invalid={error ? true : undefined}
-                  aria-describedby={error || undefined}
+                  aria-invalid={formError ? true : undefined}
+                  aria-describedby={formError || undefined}
                 />
-                {actionData?.error && (
-                  <span className="text-destructive text-xs">
-                    {actionData.error}
-                  </span>
+                {formError && (
+                  <span className="text-destructive text-xs">{formError}</span>
                 )}
                 <Button type="submit">ask</Button>
               </Form>
@@ -160,13 +175,11 @@ export default function Index() {
                   placeholder={getRandomPlaceholder(placeholders)}
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
-                  aria-invalid={error ? true : undefined}
-                  aria-describedby={error || undefined}
+                  aria-invalid={formError ? true : undefined}
+                  aria-describedby={formError || undefined}
                 />
-                {actionData?.error && (
-                  <span className="text-destructive text-xs">
-                    {actionData.error}
-                  </span>
+                {formError && (
+                  <span className="text-destructive text-xs">{formError}</span>
                 )}
                 <Button type="submit">ask</Button>
               </Form>
