@@ -162,7 +162,7 @@ function Chat({ error, placeHolder }: { error?: string; placeHolder: string }) {
           </chatFormFetcher.Form>
 
           <span className="text-xs text-primary/30 text-center">
-            this is an experimental project using ai.
+            this is an experimental project using gpt-4.
           </span>
         </div>
       </div>
