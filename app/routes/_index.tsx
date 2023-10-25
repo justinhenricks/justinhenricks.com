@@ -78,7 +78,7 @@ export default function Index() {
     "tell me a bit about justin?",
     "what are some recent projects you've worked on?",
     "what are your favorite bands?",
-    "what is some of your work experience?",
+    "explain your work experience?",
     "what albums have you worked on?",
   ];
 
@@ -95,7 +95,7 @@ export default function Index() {
         </header>
 
         <main className="relative w-full">
-          <div className="container flex flex-col gap-4 mt-4">
+          <div className="container flex flex-col gap-4 mt-2 max-h-[48vh] overflow-y-scroll">
             <div className="italic self-center text-xl font-bold">
               {curQuestion}
             </div>
