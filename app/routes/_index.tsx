@@ -53,7 +53,8 @@ export default function Index() {
   const error = actionData?.error;
   const [curQuestion, setCurQuestion] = useState("");
   const [inputValue, setInputValue] = useState("");
-  const inputRef = useRef<HTMLInputElement | null>(null);
+  const desktopInputRef = useRef<HTMLInputElement | null>(null);
+  const mobileInputRef = useRef<HTMLInputElement | null>(null);
   const navigation = useNavigation();
   // const [placeholderIdx, setPlaceholderIdx] = useState(0);
 
@@ -76,18 +77,6 @@ export default function Index() {
       <div className="flex h-full flex-col relative">
         <header className="container sticky top-0 flex w-full items-center justify-center text-teal-400 py-6">
           <div className="text-2xl">justin henricks</div>
-          {/* <div>
-              <nav>
-                <ul className="flex gap-4 text-zinc-50">
-                  <li>
-                    <a href="/">home</a>
-                  </li>
-                  <li>
-                    <a href="/about">about</a>
-                  </li>
-                </ul>
-              </nav>
-            </div> */}
         </header>
 
         <main className="relative w-full">
@@ -115,9 +104,10 @@ export default function Index() {
                 ask <span className="text-teal-400">(justy-bot&trade;)</span>{" "}
                 anything
               </h1>
+              {/* MOBILE FORM */}
               <Form
                 method="POST"
-                className="w-full flex flex-col gap-3"
+                className="w-full flex flex-col gap-3 lg:hidden"
                 onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
                   const question = e.currentTarget.elements.namedItem(
                     "question"
@@ -125,14 +115,48 @@ export default function Index() {
 
                   setCurQuestion(question.value);
                   setInputValue("");
-                  inputRef.current?.focus();
+                  console.log("blur");
+                  mobileInputRef.current?.blur();
                 }}
               >
                 <Input
                   type="text"
                   name="question"
-                  // autoFocus
-                  ref={inputRef}
+                  ref={mobileInputRef}
+                  placeholder={getRandomPlaceholder(placeholders)}
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  aria-invalid={error ? true : undefined}
+                  aria-describedby={error || undefined}
+                />
+                {actionData?.error && (
+                  <span className="text-destructive text-xs">
+                    {actionData.error}
+                  </span>
+                )}
+                <Button type="submit">ask</Button>
+              </Form>
+
+              {/* DESKTOP FORM */}
+              <Form
+                method="POST"
+                className="w-full flex-col gap-3 hidden lg:flex"
+                onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+                  const question = e.currentTarget.elements.namedItem(
+                    "question"
+                  ) as HTMLInputElement;
+
+                  setCurQuestion(question.value);
+                  setInputValue("");
+
+                  desktopInputRef.current?.focus();
+                }}
+              >
+                <Input
+                  type="text"
+                  name="question"
+                  autoFocus
+                  ref={desktopInputRef}
                   placeholder={getRandomPlaceholder(placeholders)}
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
