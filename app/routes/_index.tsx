@@ -9,6 +9,7 @@ import {
   ScrollRestoration,
   isRouteErrorResponse,
   useFetcher,
+  useLoaderData,
   useRouteError,
 } from "@remix-run/react";
 import React, { useEffect, useRef, useState } from "react";
@@ -17,13 +18,30 @@ import { SpinningLoader } from "~/components/spinning-loader";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { useIsMobile } from "~/hooks/useIsMobile";
+
+export async function loader({ params }: DataFunctionArgs) {
+  const placeholders = [
+    "when is your next gig?",
+    "tell me a bit about justin?",
+    "what are some recent projects you've worked on?",
+    "what are your favorite bands?",
+    "explain your work experience?",
+    "what albums have you worked on?",
+  ];
+
+  const randomIndex = Math.floor(Math.random() * placeholders.length);
+  const placeHolder = placeholders[randomIndex];
+
+  return json({ placeHolder });
+}
+
 export const meta: MetaFunction = () => {
   return [
     { title: "Justin Henricks" },
     {
       name: "description",
       content:
-        "Hi, I'm Justin Henricks. I'm a musician and web-developer living in Upstate NY. Try my new experimental project justy-bot&trade;.",
+        "Hi, I'm Justin Henricks. I'm a musician and web-developer living in Upstate NY. Try my new experimental ai bot.",
     },
   ];
 };
@@ -62,40 +80,21 @@ export async function action({ request }: DataFunctionArgs) {
     });
   }
 
-  console.log("got an answer");
-
   const { answer } = await answerRes.json();
-
-  console.log(answer);
 
   return json({ question, answer, formError: null });
 }
 
-function Chat({ error }: { error?: string }) {
+function Chat({ error, placeHolder }: { error?: string; placeHolder: string }) {
   const [curQuestion, setCurQuestion] = useState("");
   const [inputValue, setInputValue] = useState("");
   const chatFormFetcher = useFetcher<typeof action>();
   const isMobile = useIsMobile();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const formError = chatFormFetcher.data?.formError;
-  console.log("chatFormFetcher.state", chatFormFetcher.state);
-  //focus if not mobile
+
   if (!isMobile) {
     inputRef.current?.focus();
-  }
-
-  const placeholders = [
-    "when is your next gig?",
-    "tell me a bit about justin?",
-    "what are some recent projects you've worked on?",
-    "what are your favorite bands?",
-    "explain your work experience?",
-    "what albums have you worked on?",
-  ];
-
-  function getRandomPlaceholder(arr: string[]) {
-    const randomIndex = Math.floor(Math.random() * arr.length);
-    return arr[randomIndex];
   }
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -111,10 +110,6 @@ function Chat({ error }: { error?: string }) {
       inputRef.current?.focus();
     }
   };
-
-  console.log("hi");
-
-  console.log("error", error);
 
   return (
     <>
@@ -142,8 +137,7 @@ function Chat({ error }: { error?: string }) {
       <div className="fixed bottom-0 gap-4 w-full flex flex-col p-4 mb-2">
         <div className="md:w-3/4 lg:w-1/2 md:mx-auto flex flex-col gap-3">
           <h1 className="text-xl text-center">
-            ask <span className="text-teal-400">(justy-bot&trade;)</span>{" "}
-            anything
+            ask <span className="text-teal-400">(my ai)</span> anything
           </h1>
 
           <chatFormFetcher.Form
@@ -158,7 +152,7 @@ function Chat({ error }: { error?: string }) {
               name="question"
               ref={inputRef}
               autoFocus={!isMobile}
-              placeholder={getRandomPlaceholder(placeholders)}
+              placeholder={placeHolder}
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               aria-invalid={formError ? true : undefined}
@@ -196,9 +190,11 @@ function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function Index() {
+  const { placeHolder } = useLoaderData<typeof loader>();
+
   return (
     <Layout>
-      <Chat />
+      <Chat placeHolder={placeHolder} />
     </Layout>
   );
 }
@@ -229,7 +225,7 @@ export function ErrorBoundary() {
 
   return (
     <Layout>
-      <Chat error={message} />
+      <Chat error={message} placeHolder="Tell me a bit about justin?" />
     </Layout>
   );
 }
