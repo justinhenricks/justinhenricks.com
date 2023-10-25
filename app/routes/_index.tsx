@@ -4,7 +4,6 @@ import {
   type MetaFunction,
 } from "@remix-run/node";
 import {
-  Form,
   LiveReload,
   Scripts,
   ScrollRestoration,
@@ -12,14 +11,20 @@ import {
   useFetcher,
   useRouteError,
 } from "@remix-run/react";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Header } from "~/components/header";
+import { SpinningLoader } from "~/components/spinning-loader";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
+import { useIsMobile } from "~/hooks/useIsMobile";
 export const meta: MetaFunction = () => {
   return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    { title: "Justin Henricks" },
+    {
+      name: "description",
+      content:
+        "Hi, I'm Justin Henricks. I'm a musician and web-developer living in Upstate NY. Try my new experimental project justy-bot&trade;.",
+    },
   ];
 };
 
@@ -57,7 +62,11 @@ export async function action({ request }: DataFunctionArgs) {
     });
   }
 
+  console.log("got an answer");
+
   const { answer } = await answerRes.json();
+
+  console.log(answer);
 
   return json({ question, answer, formError: null });
 }
@@ -65,13 +74,15 @@ export async function action({ request }: DataFunctionArgs) {
 function Chat({ error }: { error?: string }) {
   const [curQuestion, setCurQuestion] = useState("");
   const [inputValue, setInputValue] = useState("");
-  const desktopInputRef = useRef<HTMLInputElement | null>(null);
-  const mobileInputRef = useRef<HTMLInputElement | null>(null);
   const chatFormFetcher = useFetcher<typeof action>();
-
-  // const actionData = useActionData<typeof action>();
+  const isMobile = useIsMobile();
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const formError = chatFormFetcher.data?.formError;
-  // const [placeholderIdx, setPlaceholderIdx] = useState(0);
+  console.log("chatFormFetcher.state", chatFormFetcher.state);
+  //focus if not mobile
+  if (!isMobile) {
+    inputRef.current?.focus();
+  }
 
   const placeholders = [
     "when is your next gig?",
@@ -87,6 +98,24 @@ function Chat({ error }: { error?: string }) {
     return arr[randomIndex];
   }
 
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const question = e.currentTarget.elements.namedItem(
+      "question"
+    ) as HTMLInputElement;
+    setCurQuestion(question.value);
+    setInputValue("");
+
+    if (isMobile) {
+      inputRef.current?.blur();
+    } else {
+      inputRef.current?.focus();
+    }
+  };
+
+  console.log("hi");
+
+  console.log("error", error);
+
   return (
     <>
       <div className="container flex flex-col gap-4 mt-2 max-h-[48vh] overflow-y-scroll">
@@ -94,13 +123,12 @@ function Chat({ error }: { error?: string }) {
           {curQuestion}
         </div>
 
-        {/* This section will start in the bottom half of the screen */}
         <div className="md:w-3/4 lg:w-3/4 flex flex-col gap-2 md:container">
-          {/* <div className="typewriter">{actionData?.answer}</div> */}
-
-          {chatFormFetcher.state === "submitting" ||
-          chatFormFetcher.state === "loading" ? (
-            "..."
+          {chatFormFetcher.state === "loading" ||
+          chatFormFetcher.state === "submitting" ? (
+            <span>
+              <SpinningLoader />
+            </span>
           ) : error ? (
             <>
               <span className="text-destructive">{error}</span>
@@ -111,33 +139,25 @@ function Chat({ error }: { error?: string }) {
         </div>
       </div>
 
-      <div className="fixed bottom-0 gap-4 md:container w-full flex flex-col p-4 mb-2">
+      <div className="fixed bottom-0 gap-4 w-full flex flex-col p-4 mb-2">
         <div className="md:w-3/4 lg:w-1/2 md:mx-auto flex flex-col gap-3">
           <h1 className="text-xl text-center">
             ask <span className="text-teal-400">(justy-bot&trade;)</span>{" "}
             anything
           </h1>
-          {/* MOBILE FORM */}
+
           <chatFormFetcher.Form
             action="?index"
             id="chat-form"
             method="POST"
-            className="w-full flex flex-col gap-3 lg:hidden"
-            onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-              const question = e.currentTarget.elements.namedItem(
-                "question"
-              ) as HTMLInputElement;
-
-              setCurQuestion(question.value);
-              setInputValue("");
-              console.log("blur");
-              mobileInputRef.current?.blur();
-            }}
+            className="w-full flex flex-col gap-3"
+            onSubmit={handleFormSubmit}
           >
             <Input
               type="text"
               name="question"
-              ref={mobileInputRef}
+              ref={inputRef}
+              autoFocus={!isMobile}
               placeholder={getRandomPlaceholder(placeholders)}
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
@@ -150,37 +170,6 @@ function Chat({ error }: { error?: string }) {
             <Button type="submit">ask</Button>
           </chatFormFetcher.Form>
 
-          {/* DESKTOP FORM */}
-          <Form
-            method="POST"
-            className="w-full flex-col gap-3 hidden lg:flex"
-            onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-              const question = e.currentTarget.elements.namedItem(
-                "question"
-              ) as HTMLInputElement;
-
-              setCurQuestion(question.value);
-              setInputValue("");
-
-              desktopInputRef.current?.focus();
-            }}
-          >
-            <Input
-              type="text"
-              name="question"
-              autoFocus
-              ref={desktopInputRef}
-              placeholder={getRandomPlaceholder(placeholders)}
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              aria-invalid={formError ? true : undefined}
-              aria-describedby={formError || undefined}
-            />
-            {formError && (
-              <span className="text-destructive text-xs">{formError}</span>
-            )}
-            <Button type="submit">ask</Button>
-          </Form>
           <span className="text-xs text-primary/30 text-center">
             this is an experimental project using ai.
           </span>

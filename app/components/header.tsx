@@ -10,7 +10,7 @@ const Header = React.forwardRef<HTMLHeadingElement, HeaderProps>(
     return (
       <header
         className={cn(
-          "container sticky top-0 flex w-full items-center justify-center text-teal-400 py-6",
+          "container sticky top-0 flex w-full items-center justify-center text-primary py-6",
           className
         )}
         ref={ref}
