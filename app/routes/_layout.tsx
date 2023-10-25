@@ -6,6 +6,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import { Header } from "~/components/header";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "" }];
@@ -23,9 +24,7 @@ export default function PageLayout() {
   return (
     <body className="bg-background text-foreground">
       <div className="flex h-screen flex-col relative">
-        <header className="container sticky top-0 flex w-full items-center justify-center text-teal-400 py-6">
-          <div className="text-2xl">justin henricks</div>
-        </header>
+        <Header />
 
         <main className="flex-1">
           <Outlet />
