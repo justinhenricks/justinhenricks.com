@@ -20,17 +20,7 @@ import { Input } from "~/components/ui/input";
 import { useIsMobile } from "~/hooks/useIsMobile";
 
 export async function loader({ params }: DataFunctionArgs) {
-  const placeholders = [
-    "when is your next gig?",
-    "tell me a bit about justin?",
-    "what are some recent projects you've worked on?",
-    "what are your favorite bands?",
-    "explain your work experience?",
-    "what albums have you worked on?",
-  ];
-
-  const randomIndex = Math.floor(Math.random() * placeholders.length);
-  const placeHolder = placeholders[randomIndex];
+  const placeHolder = getRandomPlaceholder();
 
   return json({ placeHolder });
 }
@@ -56,6 +46,7 @@ export async function action({ request }: DataFunctionArgs) {
         formError: "please provide a question",
         question: null,
         answer: null,
+        newPlaceholder: null,
       },
       { status: 400 }
     );
@@ -79,7 +70,9 @@ export async function action({ request }: DataFunctionArgs) {
 
   const { answer } = await answerRes.json();
 
-  return json({ question, answer, formError: null });
+  const newPlaceholder = getRandomPlaceholder();
+
+  return json({ question, answer, formError: null, newPlaceholder });
 }
 
 function Chat({ error, placeHolder }: { error?: string; placeHolder: string }) {
@@ -89,6 +82,9 @@ function Chat({ error, placeHolder }: { error?: string; placeHolder: string }) {
   const isMobile = useIsMobile();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const formError = chatFormFetcher.data?.formError;
+
+  const currentPlaceholder =
+    chatFormFetcher.data?.newPlaceholder || placeHolder;
 
   if (!isMobile) {
     inputRef.current?.focus();
@@ -149,7 +145,7 @@ function Chat({ error, placeHolder }: { error?: string; placeHolder: string }) {
               name="question"
               ref={inputRef}
               autoFocus={!isMobile}
-              placeholder={placeHolder}
+              placeholder={currentPlaceholder}
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               aria-invalid={formError ? true : undefined}
@@ -225,4 +221,19 @@ export function ErrorBoundary() {
       <Chat error={message} placeHolder="Tell me a bit about justin?" />
     </Layout>
   );
+}
+
+const placeholders = [
+  "when is your next gig?",
+  "tell me a bit about justin?",
+  "what are some recent projects you've worked on?",
+  "what are your favorite bands?",
+  "explain your work experience?",
+  "what albums have you worked on?",
+  "What are some of your favorite albums?",
+];
+
+function getRandomPlaceholder() {
+  const randomIndex = Math.floor(Math.random() * placeholders.length);
+  return placeholders[randomIndex];
 }
