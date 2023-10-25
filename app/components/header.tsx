@@ -1,6 +1,6 @@
 import React from "react";
+import justyLogo from "~/assets/img/justy-logo-white.png";
 import { cn } from "~/lib/utils";
-
 export interface HeaderProps {
   className?: string;
 }
@@ -16,7 +16,8 @@ const Header = React.forwardRef<HTMLHeadingElement, HeaderProps>(
         ref={ref}
         {...props}
       >
-        <div className="text-2xl">justin henricks</div>
+        {/* <div className="text-2xl">justin henricks</div> */}
+        <img src={justyLogo} className="max-h-10" alt="justy logo" />
       </header>
     );
   }
