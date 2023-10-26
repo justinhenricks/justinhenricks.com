@@ -106,7 +106,7 @@ function Chat({ error, placeHolder }: { error?: string; placeHolder: string }) {
 
   return (
     <>
-      <div className="container flex flex-col gap-4 mt-2 max-h-[48vh] overflow-y-scroll">
+      <div className="container flex flex-col gap-4 max-h-[48vh] overflow-y-scroll">
         <div className="italic self-center text-xl font-bold">
           {curQuestion}
         </div>
