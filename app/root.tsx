@@ -69,11 +69,11 @@ export const meta: MetaFunction = () => {
     },
     {
       property: "twitter:creator",
-      content: "@remix_run",
+      content: "@justhenricks",
     },
     {
       property: "twitter:site",
-      content: "@remix_run",
+      content: "@justhenricks",
     },
   ];
 };
