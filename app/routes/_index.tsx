@@ -1,8 +1,4 @@
-import {
-  json,
-  type DataFunctionArgs,
-  type MetaFunction,
-} from "@remix-run/node";
+import { json, type DataFunctionArgs } from "@remix-run/node";
 import {
   LiveReload,
   Scripts,
@@ -24,59 +20,6 @@ export async function loader({ params }: DataFunctionArgs) {
 
   return json({ placeHolder });
 }
-
-export const meta: MetaFunction = () => {
-  const title = "Justin Henricks";
-  const description =
-    "Hi, I'm Justin Henricks. I'm a musician and web-developer living in Upstate NY. Try my new experimental ai bot.";
-
-  const url = "https://justinhenricks.com";
-  const socialShareImgUrl = "https://justinhenricks.com/social-share.png";
-
-  return [
-    { title },
-    {
-      name: "description",
-      content: description,
-    },
-    {
-      property: "og:title",
-      content: title,
-    },
-    {
-      property: "og:description",
-      content: description,
-    },
-    {
-      property: "og:site_name",
-      content: title,
-    },
-    {
-      property: "og:image",
-      content: socialShareImgUrl,
-    },
-    {
-      property: "og:url",
-      content: url,
-    },
-    {
-      property: "twitter:image",
-      content: socialShareImgUrl,
-    },
-    {
-      property: "twitter:url",
-      content: url,
-    },
-    {
-      property: "twitter:title",
-      content: title,
-    },
-    {
-      property: "twitter:description",
-      content: description,
-    },
-  ];
-};
 
 export async function action({ request }: DataFunctionArgs) {
   const body = await request.formData();
