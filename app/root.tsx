@@ -48,31 +48,31 @@ export const meta: MetaFunction = () => {
       content: "website",
     },
     {
-      property: "twitter:image",
+      name: "twitter:image",
       content: socialShareImgUrl,
     },
     {
-      property: "twitter:url",
+      name: "twitter:url",
       content: url,
     },
     {
-      property: "twitter:title",
+      name: "twitter:title",
       content: title,
     },
     {
-      property: "twitter:description",
+      name: "twitter:description",
       content: description,
     },
     {
-      property: "twitter:card",
+      name: "twitter:card",
       content: "summary_large_image",
     },
     {
-      property: "twitter:creator",
+      name: "twitter:creator",
       content: "@justhenricks",
     },
     {
-      property: "twitter:site",
+      name: "twitter:site",
       content: "@justhenricks",
     },
   ];
