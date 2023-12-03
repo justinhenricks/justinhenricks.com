@@ -44,6 +44,10 @@ export const meta: MetaFunction = () => {
       content: url,
     },
     {
+      property: "og:type",
+      content: "website",
+    },
+    {
       property: "twitter:image",
       content: socialShareImgUrl,
     },
@@ -62,6 +66,14 @@ export const meta: MetaFunction = () => {
     {
       property: "twitter:card",
       content: "summary_large_image",
+    },
+    {
+      property: "twitter:creator",
+      content: "@remix_run",
+    },
+    {
+      property: "twitter:site",
+      content: "@remix_run",
     },
   ];
 };
