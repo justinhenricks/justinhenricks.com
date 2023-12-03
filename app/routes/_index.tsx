@@ -26,12 +26,54 @@ export async function loader({ params }: DataFunctionArgs) {
 }
 
 export const meta: MetaFunction = () => {
+  const title = "Justin Henricks";
+  const description =
+    "Hi, I'm Justin Henricks. I'm a musician and web-developer living in Upstate NY. Try my new experimental ai bot.";
+
+  const url = "https://justinhenricks.com";
+  const socialShareImgUrl = "https://justinhenricks.com/social-share.png";
+
   return [
-    { title: "Justin Henricks" },
+    { title },
     {
       name: "description",
-      content:
-        "Hi, I'm Justin Henricks. I'm a musician and web-developer living in Upstate NY. Try my new experimental ai bot.",
+      content: description,
+    },
+    {
+      property: "og:title",
+      content: title,
+    },
+    {
+      property: "og:description",
+      content: description,
+    },
+    {
+      property: "og:site_name",
+      content: title,
+    },
+    {
+      property: "og:image",
+      content: socialShareImgUrl,
+    },
+    {
+      property: "og:url",
+      content: url,
+    },
+    {
+      property: "twitter:image",
+      content: socialShareImgUrl,
+    },
+    {
+      property: "twitter:url",
+      content: url,
+    },
+    {
+      property: "twitter:title",
+      content: title,
+    },
+    {
+      property: "twitter:description",
+      content: description,
     },
   ];
 };
@@ -106,7 +148,7 @@ function Chat({ error, placeHolder }: { error?: string; placeHolder: string }) {
 
   return (
     <>
-      <div className="container flex flex-col gap-4 max-h-[48vh] overflow-y-scroll">
+      <div className="container flex flex-col gap-4 max-h-[45vh] overflow-y-scroll">
         <div className="italic self-center text-xl font-bold">
           {curQuestion}
         </div>
