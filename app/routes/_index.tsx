@@ -8,7 +8,7 @@ import {
   useLoaderData,
   useRouteError,
 } from "@remix-run/react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { Ref, RefObject, useEffect, useRef, useState } from "react";
 import { Header } from "~/components/header";
 import { SpinningLoader } from "~/components/spinning-loader";
 import { Button } from "~/components/ui/button";
@@ -60,7 +60,15 @@ export async function action({ request }: DataFunctionArgs) {
   return json({ question, answer, formError: null, newPlaceholder });
 }
 
-function Chat({ error, placeHolder }: { error?: string; placeHolder: string }) {
+function Chat({
+  error,
+  placeHolder,
+  headerRef,
+}: {
+  error?: string;
+  placeHolder: string;
+  headerRef?: RefObject<HTMLElement>;
+}) {
   const [curQuestion, setCurQuestion] = useState("");
   const [inputValue, setInputValue] = useState("");
   const chatFormFetcher = useFetcher<typeof action>();
@@ -68,12 +76,54 @@ function Chat({ error, placeHolder }: { error?: string; placeHolder: string }) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const formError = chatFormFetcher.data?.formError;
 
+  const [containerMaxHeight, setContainerMaxHeight] = useState("45vh");
+  const [curQuestionHeight, setCurQuestionHeight] = useState(0);
+  const chatInputBoxRef = useRef<HTMLDivElement>(null);
+  const curQuestionRef = useRef<HTMLDivElement>(null);
+
   const currentPlaceholder =
     chatFormFetcher.data?.newPlaceholder || placeHolder;
 
   if (!isMobile) {
     inputRef.current?.focus();
   }
+
+  const updateContainerHeight = () => {
+    let totalExternalHeight = 0;
+
+    // Include header's height
+    if (headerRef?.current) {
+      totalExternalHeight += headerRef.current.offsetHeight;
+    }
+
+    if (curQuestionRef.current) {
+      totalExternalHeight += curQuestionRef.current.offsetHeight;
+    }
+
+    if (chatInputBoxRef.current) {
+      totalExternalHeight += chatInputBoxRef.current.offsetHeight;
+    }
+
+    const newMaxHeight = `calc(100vh - ${totalExternalHeight - 16}px)`;
+    setContainerMaxHeight(newMaxHeight);
+  };
+
+  // useEffect hooks remain the same
+
+  useEffect(() => {
+    if (curQuestionRef.current) {
+      setCurQuestionHeight(curQuestionRef.current.offsetHeight);
+    }
+  }, [curQuestion]); // Recalculate when curQuestion changes
+
+  useEffect(() => {
+    updateContainerHeight(); // Update container height when curQuestionHeight changes
+  }, [curQuestionHeight]);
+
+  useEffect(() => {
+    window.addEventListener("resize", updateContainerHeight);
+    return () => window.removeEventListener("resize", updateContainerHeight);
+  }, []);
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     const question = e.currentTarget.elements.namedItem(
@@ -91,8 +141,14 @@ function Chat({ error, placeHolder }: { error?: string; placeHolder: string }) {
 
   return (
     <>
-      <div className="container flex flex-col gap-4 max-h-[45vh] overflow-y-scroll">
-        <div className="italic self-center text-xl font-bold">
+      <div
+        className="container flex flex-col gap-4 overflow-y-scroll"
+        style={{ maxHeight: containerMaxHeight }}
+      >
+        <div
+          className="italic self-center text-xl font-bold"
+          ref={curQuestionRef}
+        >
           {curQuestion}
         </div>
 
@@ -112,7 +168,10 @@ function Chat({ error, placeHolder }: { error?: string; placeHolder: string }) {
         </div>
       </div>
 
-      <div className="fixed bottom-0 gap-4 w-full flex flex-col p-4 mb-2">
+      <div
+        className="fixed bottom-0 gap-4 w-full flex flex-col p-4 mb-2"
+        ref={chatInputBoxRef}
+      >
         <div className="md:w-3/4 lg:w-1/2 md:mx-auto flex flex-col gap-3">
           <h1 className="text-xl text-center">
             ask <span className="text-teal-400">(my ai)</span> anything
@@ -151,11 +210,17 @@ function Chat({ error, placeHolder }: { error?: string; placeHolder: string }) {
   );
 }
 
-function Layout({ children }: { children: React.ReactNode }) {
+function Layout({
+  children,
+  headerRef,
+}: {
+  children: React.ReactNode;
+  headerRef?: Ref<HTMLHeadingElement> | undefined;
+}) {
   return (
     <body className="bg-background text-foreground">
       <div className="flex h-full flex-col relative">
-        <Header />
+        <Header ref={headerRef} />
 
         <main className="relative w-full">{children}</main>
       </div>
@@ -169,10 +234,11 @@ function Layout({ children }: { children: React.ReactNode }) {
 
 export default function Index() {
   const { placeHolder } = useLoaderData<typeof loader>();
+  const headerRef = useRef(null);
 
   return (
-    <Layout>
-      <Chat placeHolder={placeHolder} />
+    <Layout headerRef={headerRef}>
+      <Chat placeHolder={placeHolder} headerRef={headerRef} />
     </Layout>
   );
 }
