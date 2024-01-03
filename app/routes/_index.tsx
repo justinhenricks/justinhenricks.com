@@ -71,15 +71,14 @@ function Chat({
 }) {
   const [curQuestion, setCurQuestion] = useState("");
   const [inputValue, setInputValue] = useState("");
+  const [containerMaxHeight, setContainerMaxHeight] = useState("45vh");
+  const extraPadding = 48;
   const chatFormFetcher = useFetcher<typeof action>();
   const isMobile = useIsMobile();
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const formError = chatFormFetcher.data?.formError;
-
-  const [containerMaxHeight, setContainerMaxHeight] = useState("45vh");
-  const [curQuestionHeight, setCurQuestionHeight] = useState(0);
   const chatInputBoxRef = useRef<HTMLDivElement>(null);
   const curQuestionRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const formError = chatFormFetcher.data?.formError;
 
   const currentPlaceholder =
     chatFormFetcher.data?.newPlaceholder || placeHolder;
@@ -104,26 +103,18 @@ function Chat({
       totalExternalHeight += chatInputBoxRef.current.offsetHeight;
     }
 
-    const newMaxHeight = `calc(100vh - ${totalExternalHeight - 16}px)`;
+    const newMaxHeight = `calc(100vh - ${
+      totalExternalHeight - extraPadding
+    }px)`;
     setContainerMaxHeight(newMaxHeight);
   };
 
-  // useEffect hooks remain the same
-
   useEffect(() => {
-    if (curQuestionRef.current) {
-      setCurQuestionHeight(curQuestionRef.current.offsetHeight);
-    }
-  }, [curQuestion]); // Recalculate when curQuestion changes
-
-  useEffect(() => {
-    updateContainerHeight(); // Update container height when curQuestionHeight changes
-  }, [curQuestionHeight]);
-
-  useEffect(() => {
+    // Initial and resize-based container height update
+    updateContainerHeight();
     window.addEventListener("resize", updateContainerHeight);
     return () => window.removeEventListener("resize", updateContainerHeight);
-  }, []);
+  }, [curQuestion]);
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     const question = e.currentTarget.elements.namedItem(
