@@ -7,6 +7,18 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import { Header } from "~/components/header";
+import { Chat } from "./chat";
+import { Button } from "~/components/ui/button";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "~/components/ui/drawer";
 
 export const meta: MetaFunction = () => {
   return [{ title: "" }];

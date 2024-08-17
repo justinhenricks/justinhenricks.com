@@ -4,8 +4,28 @@
 
 @layer base {
   :root {
-    --font-sans: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-      "Liberation Mono", "Courier New", monospace;
+    @font-face {
+      font-family: "Berkeley Mono Variable";
+      src: url("/assets/fonts/BerkeleyMonoVariable-Regular.woff2")
+          format("woff2"),
+        url("/assets/fonts/BerkeleyMonoVariable-Regular.woff") format("woff");
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Berkeley Mono Variable";
+      src: url("/assets/fonts/BerkeleyMonoVariable-Italic.woff2")
+          format("woff2"),
+        url("/assets/fonts/BerkeleyMonoVariable-Italic.woff") format("woff");
+      font-weight: normal;
+      font-style: italic;
+      font-display: swap;
+    }
+
+    --font-sans: "Berkeley Mono Variable", ui-monospace, SFMono-Regular, Menlo,
+      Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
@@ -31,7 +51,7 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 5.9% 90%;
+    --border: 240 10% 3.9%;
     --input: 240 5.9% 90%;
     --ring: 240 10% 3.9%;
     --input-invalid: 0 84.2% 60.2%;
@@ -49,7 +69,7 @@
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 0 0% 98%;
+    --primary: 0 0% 100%;
     --primary-foreground: 240 5.9% 10%;
 
     --secondary: 240 3.7% 15.9%;
@@ -64,7 +84,7 @@
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 3.7% 15.9%;
+    --border: 0 0% 100%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
     --input-invalid: 0 62.8% 30.6%;
@@ -93,5 +113,14 @@
   50%,
   100% {
     opacity: 0;
+  }
+}
+
+@keyframes shine {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
   }
 }

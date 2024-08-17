@@ -1,0 +1,19 @@
+.container h1 {
+  display: block;
+  font-size: 2em;
+  text-align: center;
+  font-weight: 800;
+}
+
+.container h2 {
+  font-size: 1.5em;
+  color: #666;
+}
+
+.container p {
+  display: block;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 0;
+}

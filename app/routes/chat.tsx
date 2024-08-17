@@ -60,7 +60,7 @@ export async function action({ request }: DataFunctionArgs) {
   return json({ question, answer, formError: null, newPlaceholder });
 }
 
-function Chat({
+export function Chat({
   error,
   placeHolder,
   headerRef,
