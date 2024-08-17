@@ -12,18 +12,14 @@ function postFromModule(mod) {
       .replace("_layout", "")
       .replace(/\./g, "/"),
     ...mod.meta[0],
+    ...mod.meta[1],
   };
 }
 
 export async function loader({ params }: DataFunctionArgs) {
   return json({
     hello: "world",
-    posts: [
-      postFromModule(testPost),
-      postFromModule(testPost),
-      postFromModule(testPost),
-      postFromModule(testPost),
-    ],
+    posts: [postFromModule(testPost)],
   });
 }
 
@@ -33,7 +29,7 @@ export default function HomePage() {
   console.log("post", posts);
 
   return (
-    <div className="grid container justify-center gap-6 lowercase grid-cols-2">
+    <div className="grid container justify-center gap-6 lowercase">
       {posts.map((post) => (
         <Link
           to={post.slug}
